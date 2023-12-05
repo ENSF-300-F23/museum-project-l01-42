@@ -27,7 +27,8 @@ def employeeMenu(connection):
 
 def addInfo(connection):
     while True:
-        print("\nAdd Information Menu (You may go straight to adding objects, but will be prompted to add more information if nonexistent):\n")
+        print("\n************************************************************************************************************************\n")
+        print("Add Information Menu (You may go straight to adding objects, but will be prompted to add more information if nonexistent):\n")
         print("1.) Add Art Object")
         print("2.) Add Collection")
         print("3.) Add Exhibit")

@@ -9,7 +9,7 @@ def guestMenu(connection):
         print("3.) View all Artists")
         print("4.) View all Collections\n")
 
-        print("\n0. Exit\n")
+        print("0. Exit\n")
 
         choice = input("Enter your choice: ")
 

@@ -4,11 +4,11 @@ def addObj(connectMe):
     try:
         cursor = connectMe.cursor()
 
-        obj_ID = input("Enter the obj_ID for the art object: ")
+        obj_ID = input("Enter the obj_ID for the art object (XXXXX): ")
         title = input("Enter the title of the art object: ")
         descript = input("Enter a description of the art object: ")
         year_created = input("Enter the year the art object was created: ")
-        origin = input("Enter the origin of the art object: ")
+        origin = input("Enter the country origin of the art object: ")
         epoch = input("Enter the epoch of the art object: ")
 
         collection_name = input("Enter the name of the collection: ")
@@ -33,7 +33,7 @@ def addObj(connectMe):
             dateBorn = input("Enter the date the artist was born (YYYY-MM-DD): ")
             didDie = input("Enter the date the artist died (If inapplicable type NULL, otherwise in YYYY-MM-DD): ")
             if didDie.upper() == 'NULL':
-                didDie == None
+                didDie = None
 
             
             artistOrigin = input("Enter the country of origin of the artist: ")
@@ -46,7 +46,7 @@ def addObj(connectMe):
             """
             cursor.execute(insert_artist_query, (artistName, descript, dateBorn, didDie, artistOrigin, style, epoch, obj_ID))
 
-        exhibit_ID = input("Enter the exhibit_ID for the art object: ")
+        exhibit_ID = input("Enter the exhibit_ID for the art object (9XXXX): ")
 
         if exhibit_ID:
             check_exhibit_query = "SELECT exhibit_ID FROM EXHIBITION WHERE exhibit_ID = %s"
@@ -76,7 +76,7 @@ def addExhibit(connectMe):
     try:
         cursor = connectMe.cursor()
 
-        exhibit_ID = input("Enter the exhibit_ID for the exhibit: ")
+        exhibit_ID = input("Enter the exhibit_ID for the exhibit (9XXXX): ")
         Ename = input("Enter the name of the exhibit: ")
         start_date = input("Enter the start date of the exhibit (YYYY-MM-DD): ")
         end_date = input("Enter the end date of the exhibit (YYYY-MM-DD): ")
@@ -141,7 +141,7 @@ def addColle(connectMe):
                 VALUES (%s, %s, %s)
             """
             cursor.execute(insert_borrowed_query, (collection_name, date_returned, date_borrowed))
-            
+
         connectMe.commit()
 
         print("Collection added successfully.")
