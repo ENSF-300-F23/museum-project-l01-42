@@ -11,7 +11,7 @@ def addObj(connectMe):
         origin = input("Enter the country origin of the art object: ")
         epoch = input("Enter the epoch of the art object: ")
 
-        collection_name = input("Enter the name of the collection: ")
+        collection_name = input("\nEnter the name of the collection: ")
         check_collection_query = "SELECT collection_name FROM COLLECTIONS WHERE collection_name = %s"
         cursor.execute(check_collection_query, (collection_name,))
         existing_collection = cursor.fetchone()
@@ -25,7 +25,7 @@ def addObj(connectMe):
                 print("Aborted. Collection not added.")
                 return
         
-        exhibit_ID = input("Enter the exhibit_ID for the art object (9XXXX): ")
+        exhibit_ID = input("\nEnter the exhibit_ID for the art object (9XXXX): ")
 
         if exhibit_ID:
             check_exhibit_query = "SELECT exhibit_ID FROM EXHIBITION WHERE exhibit_ID = %s"
@@ -36,7 +36,7 @@ def addObj(connectMe):
                 print(f"Exhibit '{exhibit_ID}' does not exist. Creating New Entry...")
                 addExhibit(connectMe)
 
-        artistExist = input("Does the art object have an associated artist? (y/n): ")
+        artistExist = input("\nDoes the art object have an associated artist? (y/n): ")
 
         if artistExist.lower() == 'y':
             artistName = input("Enter the name of the artist: ")
@@ -62,6 +62,7 @@ def addObj(connectMe):
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """
             cursor.execute(insertArtist, (artistName, obj_ID, descript, dateBorn, didDie, artistOrigin, style, epoch))
+            updateArtist(connectMe, artistName, obj_ID)
 
         elif artistExist.lower() == 'n':
             insertQuery = """
@@ -69,6 +70,28 @@ def addObj(connectMe):
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """
             cursor.execute(insertQuery, (obj_ID, title, descript, year_created, origin, epoch, collection_name, exhibit_ID))
+        
+        while (1):
+            print("\n-ARTWORK TYPES-")
+            print("<> PA for Painting <>")
+            print("<> SC for Sculpture")
+            print("<> ST for Statue <>")
+            print("<> OT for Other <>\n")
+            typechoice = input("What type of art piece is this?: ")
+            if typechoice.upper() == 'PA':
+                addPainting(connectMe, obj_ID)
+                break
+            elif typechoice.upper() == 'SC':
+                addSculpture(connectMe, obj_ID)
+                break
+            elif typechoice.upper() == 'ST':
+                addStatue(connectMe, obj_ID)
+                break
+            elif typechoice.upper() == 'OT':
+                addOther(connectMe, obj_ID)
+                break
+            else:
+                print("Invalid Type, choose any of the following:")
         
 
         connectMe.commit()
@@ -157,3 +180,105 @@ def addColle(connectMe):
         print(f"Error: {err}")
         print("Failed to add Collection.")
 
+def updateArtist(connectMe, artist, newID):
+    try:
+        cursor = connectMe.cursor()
+
+        update_query = """
+            UPDATE ART_OBJECT
+            SET artist_name = %s
+            WHERE obj_ID = %s
+        """
+        cursor.execute(update_query, (artist, newID))
+        connectMe.commit()
+
+        print("Artist added.")
+    except mysql.connector.Error as err:
+        connectMe.rollback()
+        print(f"Error: {err}")
+        print("Failed to update Art Object details.")
+
+def addPainting(connectMe, newID):
+    try:
+        cursor = connectMe.cursor()
+
+        paint_type = input("Enter the paint type: ")
+        drawn_on = input("Enter the material drawn on: ")
+        style = input("Enter the style: ")
+
+        insert_query = """
+            INSERT INTO PAINTING (obj_ID, paint_type, drawn_on, style)
+            VALUES (%s, %s, %s, %s)
+        """
+        cursor.execute(insert_query, (newID, paint_type, drawn_on, style))
+        connectMe.commit()
+
+        print("Type added successfully.")
+    except mysql.connector.Error as err:
+        connectMe.rollback()
+        print(f"Error: {err}")
+        print("Failed to add Art Object details.")
+
+def addSculpture(connectMe, newID):
+    try:
+        cursor = connectMe.cursor()
+
+        material = input("Enter the material: ")
+        height_meter = input("Enter the height (in meters): ")
+        weight_kg = input("Enter the weight (in kg): ")
+        style = input("Enter the style: ")
+
+        insert_query = """
+            INSERT INTO SCULPTURE (obj_ID, material, height_meter, weight_Kg, style)
+            VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor.execute(insert_query, (newID, material, height_meter, weight_kg, style))
+        connectMe.commit()
+
+        print("Sculpture details added successfully.")
+    except mysql.connector.Error as err:
+        connectMe.rollback()
+        print(f"Error: {err}")
+        print("Failed to add Sculpture details.")
+
+def addStatue(connectMe, newID):
+    try:
+        cursor = connectMe.cursor()
+
+        material = input("Enter the material: ")
+        height_meter = input("Enter the height (in meters): ")
+        weight_kg = input("Enter the weight (in kg): ")
+        style = input("Enter the style: ")
+
+        insert_query = """
+            INSERT INTO STATUE (obj_ID, material, height_meter, weight_Kg, style)
+            VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor.execute(insert_query, (newID, material, height_meter, weight_kg, style))
+        connectMe.commit()
+
+        print("Statue details added successfully.")
+    except mysql.connector.Error as err:
+        connectMe.rollback()
+        print(f"Error: {err}")
+        print("Failed to add Statue details.")
+
+def addOther(connectMe, newID):
+    try:
+        cursor = connectMe.cursor()
+
+        otype = input("Enter the type: ")
+        style = input("Enter the style: ")
+
+        insert_query = """
+            INSERT INTO OTHER (obj_ID, Otype, style)
+            VALUES (%s, %s, %s)
+        """
+        cursor.execute(insert_query, (newID, otype, style))
+        connectMe.commit()
+
+        print("Other artwork details added successfully.")
+    except mysql.connector.Error as err:
+        connectMe.rollback()
+        print(f"Error: {err}")
+        print("Failed to add Other artwork details.")
