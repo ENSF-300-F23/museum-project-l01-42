@@ -95,17 +95,33 @@ def viewArtists(dbc):
         if dbc and dbc.is_connected():
             print("\n************************************************************************************************************************\n")
             print("Viewing Participating Artists:")
-
             cursor = dbc.cursor()
-            runQuery = "SELECT * FROM artist"
+            runQuery = "SELECT artist_name, Descript FROM artist"
             cursor.execute(runQuery)
             getMe = cursor.fetchall()
-
-            for name in getMe:
+            print()
+            for index in getMe:
+                print(f"Artist Name: {index[0]}")
+                print(f"Description: {index[1]}")
                 print()
-                print(f"Artist Name: {name[0]}\nObject ID: {name[1]}\nDescription: {name[2]}\nDate of Birth: {name[3]}")
-                print(f"Date of Death: {name[4]}\nOrgin: {name[5]}\nStyle: {name[6]}\nEpoch: {name[7]}")
-                print()
+            
+            while True:
+                art_name = input("For further information on artists type the artist name. To continue on type 0: ")
+                if art_name != '0':
+                    detailsQuery = f"SELECT * FROM artist WHERE artist_name = '{art_name}'"
+                    cursor.execute(detailsQuery)
+                    details = cursor.fetchall()
+                    if details:
+                        print("\nAdditional Information:")
+                        for name in details:
+                            print()
+                            print(f"Artist Name: {name[0]}\nObject ID: {name[1]}\nDescription: {name[2]}\nDate of Birth: {name[3]}")
+                            print(f"Date of Death: {name[4]}\nOrgin: {name[5]}\nStyle: {name[6]}\nEpoch: {name[7]}")
+                            print()
+                    else:
+                        print("No additional information found for the specified artist name.")
+                elif art_name == '0':
+                    break
         else:
             print("Could not connect to the database.")
 
@@ -118,17 +134,33 @@ def viewColle(dbc):
         if dbc and dbc.is_connected():
             print("\n************************************************************************************************************************\n")
             print("Viewing Participating Collections:")
-
+            print()
             cursor = dbc.cursor()
-            runQuery = "SELECT * FROM collections"
+            runQuery = "SELECT collection_name, descript FROM collections"
             cursor.execute(runQuery)
             getMe = cursor.fetchall()
+            for index in getMe:
+                print(f"Collection Name: {index[0]}")
+                print(f"Description: {index[1]}")
+                print()
 
-            for collect in getMe:
-                print()
-                print(f"Collection Name: {collect[0]}\nType: {collect[1]}\n")
-                print(f"Description: {collect[2]}\nAddress: {collect[3]}\nPhone: {collect[4]}\nCurrent Contact: {collect[5]}")
-                print()
+            while True:
+                collection_name = input("For further information on collections type the collection name. To continue on type 0: ")
+                if collection_name != '0':
+                    detailsQuery = f"SELECT * FROM collections WHERE collection_name = '{collection_name}'"
+                    cursor.execute(detailsQuery)
+                    details = cursor.fetchall()
+                    if details:
+                        print("\nAdditional Information:")
+                        for collect in details:
+                            print()
+                            print(f"Collection Name: {collect[0]}\nType: {collect[1]}")
+                            print(f"Description: {collect[2]}\nAddress: {collect[3]}\nPhone: {collect[4]}\nCurrent Contact: {collect[5]}")
+                            print()
+                    else:
+                        print("No additional information found for the specified collection name.")
+                elif collection_name == '0':
+                    break
         else:
             print("Could not connect to the database.")
 
