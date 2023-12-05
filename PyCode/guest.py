@@ -34,22 +34,39 @@ def viewArtworks(dbc):
             print("Viewing All Art Objects on Hand:")
 
             cursor = dbc.cursor()
-            runQuery = "SELECT * FROM art_object"
+            runQuery = "SELECT obj_ID, title FROM art_object"
             cursor.execute(runQuery)
             getMe = cursor.fetchall()
+            print()
+            for index in getMe:
+                print(f"Artwork ID: {index[0]}")
+                print(f"Title: {index[1]}")
+                print()
 
-            for artwork in getMe:
-                print()
-                print(f"Artwork ID: {artwork[0]}\nTitle: {artwork[1]}")
-                print(f"Description: {artwork[2]}\nYear: {artwork[3]}\nOrgin: {artwork[4]}")
-                print(f"Epoch: {artwork[5]}\nCollection: {artwork[6]}\nArtist: {artwork[7]}\nExhibit ID: {artwork[8]}")
-                print()
+            while True:
+                objectID = input("For further information on objects type the ID. To continue on type 0: ")
+                if objectID != '0':
+                    detailsQuery = f"SELECT * FROM art_object WHERE obj_ID = {objectID}"
+                    cursor.execute(detailsQuery)
+                    details = cursor.fetchall()
+                    if details:
+                        print("\nAdditional Information:")
+                        for artwork in details:
+                            print()
+                            print(f"Artwork ID: {artwork[0]}\nTitle: {artwork[1]}")
+                            print(f"Description: {artwork[2]}\nYear: {artwork[3]}\nOrgin: {artwork[4]}")
+                            print(f"Epoch: {artwork[5]}\nCollection: {artwork[6]}\nArtist: {artwork[7]}\nExhibit ID: {artwork[8]}")
+                            print()
+                    else:
+                        print("No additional information found for the specified ID.")
+                elif objectID == '0':
+                    break
         else:
             print("Could not connect to the database.")
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
-        print("Failed to view all artworks.")
+        print("Unknown Error Occured, returning to main menu.")
 
 def viewExhibitions(dbc):
     try:
