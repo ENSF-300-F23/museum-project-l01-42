@@ -1,6 +1,6 @@
 import mysql.connector
 
-def adminMenu():
+def adminMenu(connection):
     while True:
         print("\n************************************************************************************************************************\n")
         print("Welcome to the ADMIN Menu:\n")

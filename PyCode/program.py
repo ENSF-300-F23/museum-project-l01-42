@@ -28,22 +28,27 @@ def introMenu():
         except mysql.connector.Error as err:
             print(f"Error: {err}")
             print("Could not connect. Please try again.\n")
+    return connectme
 
-def userLevel():
+def userLevel(database):
     while True:
         print("Who is using the program?:")
         usertype = input("Admin = (1) | Guest (0) \nYour Choice: ")
         if usertype == '1' or usertype == '0':
             if usertype == '1':
-                adminMenu()
+                adminMenu(database)
             elif usertype == '0':
-                guestMenu()
+                guestMenu(database)
             break
         else:
             print("Invalid choice, enter a user type.")
 
+    database.close()
+    print("closed connection")
+
 def main():
-    introMenu()
-    userLevel()
+    db = introMenu()
+    userLevel(db)
+    
 
 main()
