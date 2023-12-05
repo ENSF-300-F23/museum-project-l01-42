@@ -24,6 +24,17 @@ def addObj(connectMe):
             else:
                 print("Aborted. Collection not added.")
                 return
+        
+        exhibit_ID = input("Enter the exhibit_ID for the art object (9XXXX): ")
+
+        if exhibit_ID:
+            check_exhibit_query = "SELECT exhibit_ID FROM EXHIBITION WHERE exhibit_ID = %s"
+            cursor.execute(check_exhibit_query, (exhibit_ID,))
+            existing_exhibit = cursor.fetchone()
+
+            if not existing_exhibit:
+                print(f"Exhibit '{exhibit_ID}' does not exist. Creating New Entry...")
+                addExhibit(connectMe)
 
         artistExist = input("Does the art object have an associated artist? (y/n): ")
 
@@ -40,28 +51,24 @@ def addObj(connectMe):
             style = input("Enter the artistic style of the artist: ")
             epoch = input("Enter the artistic epoch of the artist: ")
 
-            insert_artist_query = """
-                INSERT INTO ARTIST (artist_name, descript, date_born, date_died, country_of_orgin, style, epoch, obj_ID)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-            """
-            cursor.execute(insert_artist_query, (artistName, descript, dateBorn, didDie, artistOrigin, style, epoch, obj_ID))
-
-        exhibit_ID = input("Enter the exhibit_ID for the art object (9XXXX): ")
-
-        if exhibit_ID:
-            check_exhibit_query = "SELECT exhibit_ID FROM EXHIBITION WHERE exhibit_ID = %s"
-            cursor.execute(check_exhibit_query, (exhibit_ID,))
-            existing_exhibit = cursor.fetchone()
-
-            if not existing_exhibit:
-                print(f"Exhibit '{exhibit_ID}' does not exist. Creating New Entry...")
-                addExhibit(connectMe)
-
-        insertQuery = """
+            insertQuery = """
             INSERT INTO ART_OBJECT (obj_ID, title, descript, year_created, origin, epoch, collection_name, exhibit_ID)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """
-        cursor.execute(insertQuery, (obj_ID, title, descript, year_created, origin, epoch, collection_name, exhibit_ID))
+            """
+            cursor.execute(insertQuery, (obj_ID, title, descript, year_created, origin, epoch, collection_name, exhibit_ID))
+
+            insertArtist = """
+                INSERT INTO ARTIST (artist_name, obj_ID, descript, date_born, date_died, country_of_orgin, style, epoch)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            cursor.execute(insertArtist, (artistName, obj_ID, descript, dateBorn, didDie, artistOrigin, style, epoch))
+
+        elif artistExist.lower() == 'n':
+            insertQuery = """
+                INSERT INTO ART_OBJECT (obj_ID, title, descript, year_created, origin, epoch, collection_name, exhibit_ID)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            cursor.execute(insertQuery, (obj_ID, title, descript, year_created, origin, epoch, collection_name, exhibit_ID))
         
 
         connectMe.commit()
