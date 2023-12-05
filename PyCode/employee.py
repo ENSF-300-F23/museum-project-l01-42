@@ -1,75 +1,86 @@
 import mysql.connector
 
-def adminMenu(connection):
+def employeeMenu(connection):
     while True:
         print("\n************************************************************************************************************************\n")
-        print("Welcome to the ADMIN Menu:\n")
-        print("1.) Add a new user")
-        print("2.) Edit a user")
-        print("3.) Block a user")
-        print("4.) Make changes to the database")
+        print("Welcome to the Employee Menu:")
+        print("1.) Add Information")
+        print("2.) Remove Information")
+        print("3.) Edit Information")
 
-        print("\n0.) Exit\n")
+        print("\n0. Exit\n")
 
         choice = input("Enter your choice: ")
 
         if choice == '1':
-            addNewUser()
+            addInfo(connection)
         elif choice == '2':
-            editUser()
+            removeInfo(connection)
         elif choice == '3':
-            blockUser()
-        elif choice == '4':
-            makeDatabaseChanges()
+            editInfo(connection)
         elif choice == '0':
-            print("Exiting admin menu.")
+            print("Exiting employee menu.")
             break
         else:
             print("Invalid choice. Please enter a valid option.")
 
-def addNewUser():
-    # Implement logic to add a new user
-    print("Adding a new user. Under construction.")
+def addInfo(connection):
+    print("add obj")
 
-def editUser():
-    # Implement logic to edit a user
-    print("Editing a user. Under construction.")
+def removeInfo(connection):
+    try:
+        cursor = connection.cursor()
+        display_query = "SELECT obj_ID, title FROM art_object"
+        cursor.execute(display_query)
+        artworks = cursor.fetchall()
 
-def blockUser():
-    # Implement logic to block a user
-    print("Blocking a user. Under construction.")
+        print("\nArt Objects:")
+        for artwork in artworks:
+            print(f"Artwork ID: {artwork[0]}, {artwork[1]}")
 
-def makeDatabaseChanges():
-    while True:
-        print("\n************************************************************************************************************************\n")
-        print("Database Changes Menu:")
-        print("1. Add a new table")
-        print("2. Modify table attributes")
-        print("3. Add constraints to a table")
-        print("0. Exit")
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        print("Failed to display Art Objects.")
+        return
 
-        dbChoice = input("Enter your choice: ")
+    print("\nRemoving Art Object:")
+    object_id = input("Enter Art Object ID to remove: ")
+    try:
+        cursor = connection.cursor()
 
-        if dbChoice == '1':
-            addNewTable()
-        elif dbChoice == '2':
-            modifyTableAttributes()
-        elif dbChoice == '3':
-            addConstraints()
-        elif dbChoice == '0':
-            print("Exiting database changes menu.")
-            break
+        check_artist_query = f"SELECT artist_name FROM artist WHERE obj_ID = {object_id}"
+        cursor.execute(check_artist_query)
+        artists = cursor.fetchall()
+
+        if artists:
+            print(f"Associated artist found. Deleting associated artist(s) first...")
+
+            for artist in artists:
+                artist_name = artist[0]
+                deleteQuery = f"DELETE FROM artist WHERE artist_name = '{artist_name}'"
+                cursor.execute(deleteQuery)
+                connection.commit()
+
+                if cursor.rowcount > 0:
+                    print(f"Artist {artist_name} deleted successfully.")
+                else:
+                    print(f"Failed to delete artist {artist_name}.")
+
+        deleteQuery = f"DELETE FROM art_object WHERE obj_ID = {object_id}"
+        cursor.execute(deleteQuery)
+        connection.commit()
+
+        if cursor.rowcount > 0:
+            print("Art Object removed successfully.")
         else:
-            print("Invalid choice. Please enter a valid option.")
+            print(f"No Art Object found with ID {object_id}.")
 
-def addNewTable():
-    # Implement logic to add a new table
-    print("Adding a new table. Under construction.")
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        print("Failed to remove Art Object, returning to Main Menu.")
 
-def modifyTableAttributes():
-    # Implement logic to modify table attributes
-    print("Modifying table attributes. Under construction.")
 
-def addConstraints():
-    # Implement logic to add constraints to a table
-    print("Adding constraints to a table. Under construction.")
+
+def editInfo(connection):
+    # Implement the logic to edit an existing art object
+    pass
