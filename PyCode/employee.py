@@ -1,4 +1,5 @@
 import mysql.connector
+from addFunctions import addObj, addColle, addExhibit
 
 def employeeMenu(connection):
     while True:
@@ -25,7 +26,30 @@ def employeeMenu(connection):
             print("Invalid choice. Please enter a valid option.")
 
 def addInfo(connection):
-    print("add obj")
+    while True:
+        print("\nAdd Information Menu (You may go straight to adding objects, but will be prompted to add more information if nonexistent):\n")
+        print("1.) Add Art Object")
+        print("2.) Add Collection")
+        print("3.) Add Exhibit")
+
+        print("\n0.) Go Back to Main Menu")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            addObj(connection)
+        elif choice == '2':
+            addColle(connection)
+        elif choice == '3':
+            addExhibit(connection)
+        elif choice == '0':
+            print("Returning to Employee Menu.")
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 4.")
+
+
+    
 
 def removeInfo(connection):
     try:
