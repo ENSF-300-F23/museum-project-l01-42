@@ -33,7 +33,7 @@ def introMenu():
 def userLevel(database):
     while True:
         print("Who is using the program?:")
-        usertype = input("Admin = (1) | Guest (0) \nYour Choice: ")
+        usertype = input("(Guest = 0) | (Admin = 1) \nYour Choice: ")
         if usertype == '1' or usertype == '0':
             if usertype == '1':
                 adminMenu(database)
