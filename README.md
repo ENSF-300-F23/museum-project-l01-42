@@ -15,12 +15,12 @@
     Alyan mainly worked with the MySQL script and queries, but also lent a hand in creating guest display for
     python and created the EERD Diagaram.
 
-  ## Program Notes:
+  Program Notes:
     As stated in d2l, we were given the option to either choose employee or admin interface. After
     logging into database through personal SQL password, you may view the program as either
     a guest or employee.
 
-   ## If Guest is Chosen (intended for the average user):
+   If Guest is Chosen (intended for the average user):
       -You are allowed to view information regarding artworks, exhibitions, participating (known artists)
       and participating collections.
       -artworks, collections and artists all have a feature to type the respective primary key, showing
@@ -29,11 +29,12 @@
       you cannot make any changes to the info.
 
   **Assuming that you went through proper procedures (no login needed)**
-   ## If Employee is chosen (assumed employee has experience with program and knows what they are looking for):
+   If Employee is chosen (assumed employee has experience with program and knows what they are looking for):
     -You are greeted by a main employee menu. You may add information, remove information, and edit information 
     within the database.
     -Adding will work with the tables, employees are prompted to enter in the information as needed.
-  ## Unless prompted, you should not leave any inputs blank.
+    
+    Unless prompted, you should not leave any inputs blank.
     -error handling was coded to counter such failures in the off chance in happens, but it is assumed that employees are not
     trying to break the program and only use it as intended.
     - There are proper insturctions that the employee can follow, but other than that it is assumed that they know what they are
@@ -43,7 +44,7 @@
     -employees can then go back to guest menu to verify their changes, or as well as checkin gthrough display functions
     triggerede by edit functions.
     
-  ## Features:
+Features
   -Login authentication to connect to database (after building on local MySql, will take user's personal password)
   -All minimum features have been included as followed on term project 300 guideline on d2l.
   -Guests can view all the information they need regarding all tables in the museum database.
