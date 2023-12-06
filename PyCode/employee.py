@@ -1,5 +1,6 @@
 import mysql.connector
 from addFunctions import addObj, addColle, addExhibit
+from editFunctions import editObj, editExhibit, editColle
 
 def employeeMenu(connection):
     while True:
@@ -9,7 +10,7 @@ def employeeMenu(connection):
         print("2.) Remove Information")
         print("3.) Edit Information")
 
-        print("\n0. Exit\n")
+        print("\n0.) Exit\n")
 
         choice = input("Enter your choice: ")
 
@@ -21,6 +22,7 @@ def employeeMenu(connection):
             editInfo(connection)
         elif choice == '0':
             print("Exiting employee menu.")
+            print("\n************************************************************************************************************************\n")
             break
         else:
             print("Invalid choice. Please enter a valid option.")
@@ -107,5 +109,33 @@ def removeInfo(connection):
 
 
 def editInfo(connection):
-    # Implement the logic to edit an existing art object
-    pass
+    while 1:
+        print("\n************************************************************************************************************************\n")
+        print("Welcome to the EDIT menu.")
+        print("NOTE: You cannot edit object ID or artist name.")
+        print("Instead you must remove the object and then re add the information through ADD menu.\n")
+        print("1.) Edit Object Information")
+        print("2.) Edit Existing Collections")
+        print("3.) Edit Existing Exhibitions\n")
+
+        print("0.) Exit\n")
+
+        editchoice = input("Enter your choice: ")
+
+        if editchoice == "1":
+            print("\n************************************************************************************************************************\n")
+            editObj(connection)
+
+        elif editchoice == '2':
+            print("\n************************************************************************************************************************\n")
+            editColle(connection)
+
+        elif editchoice =='3':
+            print("\n************************************************************************************************************************\n")
+            editExhibit(connection)
+        elif editchoice == '0':
+            print("Exiting Edit Menu.")
+            break
+        else:
+            print("Invalid Option.")
+    

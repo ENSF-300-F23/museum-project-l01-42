@@ -33,7 +33,7 @@ def introMenu():
 def userLevel(database):
     while True:
         print("Who is using the program?:")
-        usertype = input("(Guest = 0) | (Employee = 1) | (Close Program = EXIT)\nYour Choice: ")
+        usertype = input("(Guest = 0) | (Employee = 1) | (Close Program = EXIT)\n\nYour Choice: ")
         if usertype == '1' or usertype == '0':
             if usertype == '0':
                 guestMenu(database)
@@ -46,7 +46,8 @@ def userLevel(database):
             print("Invalid choice, enter a user type.")
 
     database.close()
-    print("closed connection")
+    print("Disconnected.")
+    print("\n************************************************************************************************************************")
 
 def main():
     db = introMenu()
