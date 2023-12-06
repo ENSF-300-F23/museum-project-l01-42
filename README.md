@@ -44,7 +44,7 @@
     -employees can then go back to guest menu to verify their changes, or as well as checkin gthrough display functions
     triggerede by edit functions.
     
-Features
+## Features
   -Login authentication to connect to database (after building on local MySql, will take user's personal password)
   -All minimum features have been included as followed on term project 300 guideline on d2l.
   -Guests can view all the information they need regarding all tables in the museum database.
