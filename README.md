@@ -2,8 +2,8 @@
 # Museum-Project
 # Overlook:
 Group Members:
-Jerome Barcelona #UCID 30185184,
-Alyan Qureshi #UCID 30169810
+Jerome Barcelona,
+Alyan Qureshi 
 
 # Project Distribution:
 -Almost everything was worked on together over call or in person, but we had certain specilaizations and focus on different areas for both members. 
